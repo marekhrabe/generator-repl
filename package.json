@@ -1,0 +1,14 @@
+{
+  "name": "generator-repl",
+  "version": "1.0.0",
+  "description": "REPL for Adobe Photoshop Generator",
+  "main": "index.js",
+  "author": "Marek Hrabe <marekhrabe@abdoc.net> (https://github.com/marekhrabe)",
+  "license": "MIT",
+  "generator-core-version": "*",
+  "dependencies": {
+    "open": "0.0.5",
+    "repl-promised": "^0.1.0",
+    "temp": "^0.8.1"
+  }
+}
