@@ -1,0 +1,29 @@
+/*
+ * Icon generator
+ *  – a little icon factory
+ *
+ * Usage:
+ * .generate-icon('settings', 10px[, 10px, 'svg']);
+ *      |             |         |     |      \ file extension
+ *      |             |         |      \ height of the icon
+ *      |             |          \ width of the icon
+ *      |              \ name of the icon and also of the image
+ *       \ generates the icon (how obvious)
+ */
+
+.generate-icon(@name, @width, @height: @width, @image-type: 'svg') {
+  @prefix: '.icon';
+  @suffix: ':before';
+  @selector: ~'@{prefix}-@{name}@{suffix}';
+
+  @{selector} {
+     .size(@width, @height);
+      background-image: url('../images/icons/photoshop-@{name}-dark.@{image-type}');
+  }
+
+  .platform-photoshop .light {
+    @{selector} {
+       background-image: url('../images/icons/photoshop-@{name}-light.@{image-type}');
+    }
+  }
+}

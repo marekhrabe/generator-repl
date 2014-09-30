@@ -1,0 +1,20 @@
+.navigation {
+  display: -webkit-flex;
+  padding: 10px 5px;
+
+  input[type=search], button {
+    height: 22px;
+    margin: 0 5px;
+  }
+
+  button {
+    .size(22px);
+    .min-size(22px);
+    line-height: 22px;
+    padding: 0;
+
+    &:before {
+      margin-right: 0;
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "repl-panel",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Frontend of Photoshop REPL",
+  "author": "Marek Hrabe <marekhrabe@abdoc.net> (https://github.com/marekhrabe)",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^0.11.1",
+    "reactionary-source-fork": "^0.9.0",
+    "tinycolor2": "^1.0.0"
+  }
+}

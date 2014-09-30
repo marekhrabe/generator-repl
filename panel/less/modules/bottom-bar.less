@@ -1,0 +1,39 @@
+@bottom-bar-height: 20px;
+
+.bottom-bar {
+  .container;
+  min-height: @bottom-bar-height;
+  max-height: @bottom-bar-height;
+  line-height: @bottom-bar-height;
+  border-top: 1px solid rgba(0, 0, 0, .4);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+  text-align: right;
+  position: relative;
+
+  .plugin-version {
+    .absolute(10px, 0);
+    font-size: 9px;
+  }
+
+  // .state {
+    // margin-right: 10px;
+  // }
+
+  button.flat {
+    line-height: @bottom-bar-height;
+    padding: 0 5px;
+    border-radius: 0;
+    border-top: none;
+    border-bottom: none;
+    box-shadow: none;
+    margin-left: 5px;
+
+    &:active, &.active {
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, .4);
+    }
+
+    &:before {
+      margin-right: 0;
+    }
+  }
+}

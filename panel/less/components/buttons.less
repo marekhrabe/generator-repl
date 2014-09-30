@@ -1,0 +1,44 @@
+.platform-photoshop,
+.platform-web {
+  button, .button {
+    line-height: 34px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+}
+
+button, .button {
+  &.block {
+    display: block;
+    width: 100%;
+  }
+
+  &.caret {
+    position: relative;
+
+    &:after {
+      .pseudo;
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      margin-top: -3px;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 5px solid;
+    }
+  }
+}
+
+.dark {
+  .button.caret:after,
+  button.caret:after {
+    .filter(drop-shadow(0 1px 0 rgba(0, 0, 0, .5)));
+  }
+}
+
+.light {
+  .button.caret:after,
+  button.caret:after {
+    .filter(drop-shadow(0 1px 0 rgba(255, 255, 255, .5)));
+  }
+}

@@ -1,0 +1,71 @@
+.project-list {
+  & > li {
+    position: relative;
+    display: -webkit-flex;
+    height: 51px;
+    padding: 0 10px 1px;
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
+
+    &:before {
+      .pseudo;
+      .absolute;
+      .size(100%);
+      z-index: 0;
+    }
+
+    &:hover:before {
+      background-color: rgba(255, 255, 255, .05);
+    }
+
+    &.active:before {
+      background-color: rgba(125, 173, 73, .8);
+      .box-shadow(0 1px 0 rgba(0, 0, 0, .18));
+    }
+  }
+
+  li {
+
+    div, ul {
+      position: relative;
+      z-index: 2;
+      margin: auto 0;
+    }
+
+    div {
+      -webkit-flex-grow: 1;
+    }
+
+    strong {
+      display: block;
+      font-size: 12px;
+    }
+
+    span {
+      font-size: 11px;
+    }
+  }
+
+  .people {
+    display: -webkit-flex;
+
+    li {
+      .size(15px);
+      .min-size(15px);
+      margin-left: 5px;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+
+    strong {
+      line-height: 16px;
+      height: 15px;
+    }
+
+    img {
+      .size(16px);
+      .border-radius(8px);
+    }
+  }
+}

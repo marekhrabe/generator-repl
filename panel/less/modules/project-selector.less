@@ -1,0 +1,36 @@
+.project-selector {
+  display: -webkit-flex;
+  -webkit-flex-grow: 1;
+  -webkit-flex-direction: column;
+
+  .inset-panel {
+    display: -webkit-flex;
+    -webkit-flex-grow: 1;
+    position: relative;
+
+    .project-list {
+      .absolute;
+      .size(100%);
+      overflow: auto;
+      overflow-x: hidden;
+    }
+  }
+
+  .save {
+    margin: 10px;
+  }
+
+  .info-message {
+    margin: auto;
+    text-align: center;
+
+    i {
+      display: block;
+      margin-bottom: 10px;
+
+      &:before {
+        margin-right: 0;
+      }
+    }
+  }
+}
