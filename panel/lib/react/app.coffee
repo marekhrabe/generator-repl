@@ -7,6 +7,18 @@ Error = require './error'
 updateObject = React.addons.update
 classSet = React.addons.classSet
 
+isPixmap = /^pixmap#/
+isCommand = /^command#/
+isHTML = /^html#/
+colors =
+  '0AA': '66D9EF'
+  '0A0': 'E6DB74'
+  'A50': 'AE81FF'
+  '555': '66D9EF'
+prepareHtml = (html) ->
+  html.replace /style="color:#(...)"/g, (str, color) ->
+    "style=\"color:##{colors[color] or color};\""
+
 commonPrefix = (strings) ->
   return ""  if not strings or strings.length is 0
   sorted = strings.slice().sort()
@@ -27,20 +39,58 @@ module.exports = React.createClass
     error: null
     input: ''
     output: []
+    history: []
+    historyPosition: null
+    latestInput: null
 
   updateInput: (str) ->
-    @setState input: str
+    if str isnt @state.input
+      @setState input: str
+      if str.substr(-1) is '('
+        bridge.emit 'fn', str
 
-  append: (str) ->
-    @setState updateObject @state, output: $push: [str]
+  output: (out) ->
+    @setState updateObject @state, output: $push: [out]
+
+  addHistory: (ckd) ->
+    @setState updateObject @state,
+      history:
+        $push: [ckd]
+    @setState
+      historyPosition: null
+
+  walkHistory: (dir) ->
+    newPos = @state.historyPosition
+
+    if @state.historyPosition is null
+      newPos = @state.history.length
+      @setState latestInput: @state.input
+
+    newPos += dir
+    if newPos >= @state.history.length and @state.historyPosition isnt null
+      @setState
+        input: @state.latestInput
+        historyPosition: null
+    else if @state.history[newPos]
+      @setState
+        input: @state.history[newPos]
+        historyPosition: newPos
 
   componentDidMount: ->
     bridge.emit 'init'
 
+    bridge.on 'clear', =>
+      @setState output: []
+    bridge.on 'params', (params) =>
+      @output @state.input + params.join(', ') + ')'
     bridge.on 'output', (str) =>
-      @append str
+      @output str
+    bridge.on 'html', (html) =>
+      @output type: 'html', value: prepareHtml html
+    bridge.on 'pixmap', (pixmap) =>
+      @output type: 'pixmap', value: pixmap
     bridge.on 'completions', (completions) =>
-      @append completions[0].join '\t'
+      @output completions[0].join '\t'
       prefix = commonPrefix completions[0]
       console.log input: @state.input, prefix: prefix.length
       if prefix and @state.input.length < prefix.length
@@ -51,14 +101,12 @@ module.exports = React.createClass
   send: (cmd) ->
     return unless cmd
 
-    if cmd is 'clear'
-      @setState output: []
-    else
-      @append '> ' + cmd
-      bridge.emit 'cmd', cmd
+    bridge.emit 'cmd', cmd
+    @output type: 'command', value: cmd
+    @addHistory cmd
 
   complete: (cmd) ->
-    @append '> ' + cmd
+    @output '> ' + cmd
     bridge.emit 'complete', cmd
 
   copy: (str) ->
@@ -68,46 +116,20 @@ module.exports = React.createClass
     bridge.emit 'open', url
 
   render: ->
-    div className: 'wrap',
-      div className: 'content',
+    if @state.error
+      Error
+        message: @state.error
+        dismiss: => @setState error: null
 
-        if @state.error
-          Error
-            message: @state.error
-            dismiss: => @setState error: null
+    div
+      className: 'box'
 
-        div
-          className: 'box'
+      History
+        output: @state.output
 
-          History
-            output: @state.output
-
-          CommandLine
-            input: @state.input
-            update: @updateInput
-            send: @send
-            complete: @complete
-
-      div className: 'bottom-bar',
-        span
-          className: 'plugin-version'
-          bridge.qs.version
-
-        # span
-        #   className: classSet
-        #     state: true
-        #     icon: nowExporting
-        #     'icon-syncing': nowExporting
-        #   if nowExporting
-        #     span "Syncing #{nowExporting} design#{if nowExporting > 1 then "s" else ""}. "
-        #   if (nowPending > 1) or nowPending is 1 and pendingTask isnt @state.activeDocument
-        #     span null,
-        #       span "#{nowPending} design#{if nowPending > 1 then "s" else ""} synced. "
-        #       # unless @state.exporting[@state.activeDocument]?.completed
-        #       #   a
-        #       #     onClick: @openPending
-        #       #     "Click to share"
-
-        # button
-        #   className: 'flat icon icon-logout'
-        #   onClick: -> top.postMessage 'logout', '*'
+      CommandLine
+        input: @state.input
+        update: @updateInput
+        send: @send
+        complete: @complete
+        history: @walkHistory
