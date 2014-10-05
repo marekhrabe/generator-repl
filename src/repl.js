@@ -365,13 +365,13 @@ REPLServer.prototype.complete = function(line, callback) {
           if (e) console.log(e);
 
           if (obj != null) {
-            if (typeof obj === 'object' || util.isFunction(obj)) {
+            if (typeof obj === 'object' || typeof obj === 'function') {
               memberGroups.push(Object.getOwnPropertyNames(obj));
             }
             try {
               var sentinel = 5;
               var p;
-              if (typeof obj === 'object' || util.isFunction(obj)) {
+              if (typeof obj === 'object' || typeof obj === 'function') {
                 p = Object.getPrototypeOf(obj);
               } else {
                 p = obj.constructor ? obj.constructor.prototype : null;
