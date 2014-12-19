@@ -33,7 +33,7 @@ module.exports = React.createClass
           if e.keyCode is 40
             @props.history(1)
             e.preventDefault()
-          else if e.keyCode is 9
+          else if e.keyCode in [9, 27]
             @props.complete e.target.value
             e.preventDefault()
           else if e.keyCode is 67 and e.ctrlKey

@@ -49,8 +49,8 @@ module.exports = React.createClass
       if str.substr(-1) is '('
         bridge.emit 'fn', str
 
-  output: (out) ->
-    @setState updateObject @state, output: $push: [out]
+  output: (out, callback) ->
+    @setState(updateObject(@state, output: $push: [out]), callback or ->)
 
   addHistory: (ckd) ->
     @setState updateObject @state,
@@ -101,9 +101,13 @@ module.exports = React.createClass
   send: (cmd) ->
     return unless cmd
 
-    bridge.emit 'cmd', cmd
-    @output type: 'command', value: cmd
-    @addHistory cmd
+    @output(
+      type: 'command'
+      value: cmd
+    , =>
+      @addHistory cmd
+      bridge.emit 'cmd', cmd
+    )
 
   complete: (cmd) ->
     @output '> ' + cmd
@@ -126,6 +130,7 @@ module.exports = React.createClass
 
       History
         output: @state.output
+        open: @open
 
       CommandLine
         input: @state.input

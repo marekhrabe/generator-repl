@@ -29,9 +29,13 @@ module.exports = React.createClass
               when 'pixmap'
                 div
                   className: 'pixmap'
-                  img
-                    src: 'file://' + data.value.__replTempFile
-                    height: 100
+                  div
+                    className: 'link'
+                    onClick: => @open data.value.__replTempURL
+
+                    img
+                      src: data.value.__replTempURL
+                      height: 100
                   span "#{data.value.width}×#{data.value.height}px, #{data.value.bitsPerChannel}bit, #{data.value.channelCount} channels"
               when 'command'
                 div
