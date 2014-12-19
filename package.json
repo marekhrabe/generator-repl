@@ -49,7 +49,8 @@
     }
   },
   "scripts": {
-    "start": "./node_modules/.bin/build-backend && ./node_modules/.bin/autoreload",
+    "postinstall": "cd ./panel && npm install",
+    "start": "./node_modules/.bin/autoreload",
     "extension": "node -e \"require('panel-photoshop-extension')(require('./package.json'))\""
   }
 }
