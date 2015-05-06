@@ -24,7 +24,7 @@ module.exports.init = (generator, logger) ->
       width: pixmap.width
       height: pixmap.height
 
-    pixmap.__replTempURL = "http://sourcelocalhost.com:" + pkg.panel.port + "/pixmap/#{id}"
+    pixmap.__replTempURL = "https://sourcelocalhost.com:" + pkg.panel.port + "/pixmap/#{id}"
 
     pixels = new Buffer pixmap.pixels.length
     pixmap.pixels.copy pixels
