@@ -10,7 +10,7 @@
   "dependencies": {
     "ansi-to-html": "^0.2.0",
     "open": "0.0.5",
-    "panel-photoshop-bridge": "^1.3.2",
+    "panel-photoshop-bridge": "^2.0.0",
     "pngjs": "^0.4.0",
     "q": "^1.0.1",
     "repl-promised": "^0.1.0",
@@ -22,15 +22,14 @@
   },
   "panel": {
     "title": "REPL",
-    "icon-light": "icons/light.png",
-    "icon-dark": "icons/dark.png",
+    "icons": {
+      "light": "icons/light.png",
+      "dark": "icons/dark.png"
+    },
     "static": "panel/",
-    "photoshop-target-version": [
-      "15.0",
-      "15.9"
-    ],
     "port": 57632,
-    "debug-port": 57631,
+    "debugPort": 57631,
+    "useSSL": true,
     "identifier": "com.marekhrabe.repl",
     "cert": "marek-repl.p12",
     "sizes": {
@@ -46,7 +45,12 @@
         "width": 1000,
         "height": 1000
       }
-    }
+    },
+    "photoshopVersion": [
+      "15.1",
+      "15.9"
+    ],
+    "madebysource": {}
   },
   "scripts": {
     "postinstall": "cd ./panel && npm install",
